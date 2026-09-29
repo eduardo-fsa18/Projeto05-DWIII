@@ -55,7 +55,7 @@ function erro404(response){
 
 // Calcular Nota:
 function calcularNota(p1,p2){
-    const media = p1 + p2 / 2;
+    const media = (p1 + p2) / 2;
     return media
 }
 
