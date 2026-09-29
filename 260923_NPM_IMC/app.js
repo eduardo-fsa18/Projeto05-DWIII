@@ -53,57 +53,29 @@ function erro404(response){
     });
 }
 
-// Calcular IMC:
-function calcularIMC(peso, alturaCm){
-    const altura = alturaCm / 100;
-    return peso / (altura * altura);
+// Calcular Nota:
+function calcularNota(p1,p2 ){
+    media = p1 + p2 / 2;
+    return media
 }
 
-// Classificar IMC:
-function classificarIMC(imc){
-    if(imc < 18.5){
+// Aprovação:
+function classificarNota(media){
+    if(media >= 6.0){
         return{
-            classificacao: 'Abaixo do Peso',
-            pagina: 'abaixodopeso.html'
-        }
-    }
-
-    if(imc < 25){
-        return{
-            classificacao: 'Peso Normal',
-            pagina: 'pesonormal.html'
-        }
-    }
-
-    if(imc < 30){
-        return{
-            classificacao: 'Sobrepeso',
-            pagina: 'sobrepeso.html'
-        }
-    }
-
-    if(imc < 35){
-        return{
-            classificacao: 'Obesidade Grau I',
-            pagina: 'obesidade1.html'
-        }
-    }
-
-    if(imc < 40){
-        return{
-            classificacao: 'Obesidade Grau II',
-            pagina: 'obesidade2.html'
+            classificacao: 'Reprovado',
+            pagina: 'reprovado.html'
         }
     }
 
     return{
-        classificacao: 'Obesidade Grau III',
-        pagina: 'obesidade3.html'
+        classificacao: 'Aprovado',
+        pagina: 'aprovado.html'
     }
 }
 
 // Mostrar Resultado:
-function mostrarResultado(response, pagina, nome, peso, altura, imc, classificacao){
+function mostrarResultado(response, pagina, nome, p1, p2, media, classificacao){
     const file = path.join(publicDir, pagina);
     
     fs.readFile(file, 'utf-8', function(err, data){
@@ -112,9 +84,9 @@ function mostrarResultado(response, pagina, nome, peso, altura, imc, classificac
         }
 
         data = data.replace('{nome}', nome);
-        data = data.replace('{peso}', peso.toFixed(2));
-        data = data.replace('{altura}', altura.toFixed(0));
-        data = data.replace('{imc}', imc.toFixed(2));
+        data = data.replace('{p1}', p1.toFixed(2));
+        data = data.replace('{p2}', p2.toFixed(0));
+        data = data.replace('{media}', media.toFixed(2));
         data = data.replace('{classificacao}', classificacao);
 
         response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
@@ -132,27 +104,27 @@ function callback(request, response){
         return readFile(response, path.join(publicDir, 'index.html'));
     }
 
-    // Rota IMC:
-    if(pathname === '/imc'){
+    // Rota Media:
+    if(pathname === '/media'){
         const nome = url.searchParams.get('nome');
-        const peso = parseFloat(url.searchParams.get('peso'));
-        const altura = parseFloat(url.searchParams.get('altura'));
+        const p1 = parseFloat(url.searchParams.get('p1'));
+        const p2 = parseFloat(url.searchParams.get('p2'));
 
-        if(!nome || isNaN(peso) || isNaN(altura)){
+        if(!nome || isNaN(p1) || isNaN(p2)){
             response.writeHead(400, {'Content-Type': 'text/plain; charset=utf-8'});
-            return response.end('Informe nome, peso e altura na URL');
+            return response.end('Informe nome, nota da p1 e p2');
         }
 
-        const imc = calcularIMC(peso, altura);
-        const resultado = classificarIMC(imc);
+        const media = calcularNota(p1, p2);
+        const resultado = classificarNota(media);
 
         return mostrarResultado(
             response,
             resultado.pagina,
             nome,
-            peso,
-            altura,
-            imc,
+            p1,
+            p2,
+            media,
             resultado.classificacao
         );
     }
