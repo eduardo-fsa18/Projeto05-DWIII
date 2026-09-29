@@ -1,0 +1,73 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 30px;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+.container,
+.resultado{
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+h1{
+    margin-top: 0;
+}
+
+p{
+    font-size: 18px;
+}
+
+code{
+    display: block;
+    padding: 15px;
+    background: #222;
+    color: white;
+    border-radius: 5px;
+}
+
+a{
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #222;
+    color: white;
+    text-decoration: none;
+}
+
+.abaixo{
+    background: #d9edf7;
+}
+
+.normal{
+    background: #dff0d8;
+}
+
+.sobrepeso{
+    background: #fcf8e3;
+}
+
+.obesidade1{
+    background: #f5cba7;
+}
+
+.obesidade2{
+    background: #f0ad4e;
+}
+
+.obesidade3{
+    background: #f2dede;
+}
+
+.erro404{
+    background: #222;
+}
